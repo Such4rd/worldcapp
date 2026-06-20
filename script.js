@@ -504,3 +504,27 @@ toggleAsistencia();
 toggleAcompanante();
 toggleNinos();
 renderChildrenFields();
+
+// FIX V3: el elemento real es <nav class="nav-shell">.
+// Lo dejamos en flujo normal para que suba/desaparezca al hacer scroll.
+document.addEventListener('DOMContentLoaded', () => {
+  const navShell = document.querySelector('nav.nav-shell');
+  if (!navShell) return;
+
+  navShell.style.setProperty('position', 'relative', 'important');
+  navShell.style.setProperty('top', 'auto', 'important');
+  navShell.style.setProperty('right', 'auto', 'important');
+  navShell.style.setProperty('bottom', 'auto', 'important');
+  navShell.style.setProperty('left', 'auto', 'important');
+  navShell.style.setProperty('inset', 'auto', 'important');
+  navShell.style.setProperty('transform', 'none', 'important');
+
+  // FIX V4: sin borde/caja visual aunque alguna regla antigua siga cargada.
+  navShell.style.setProperty('border', '0', 'important');
+  navShell.style.setProperty('outline', '0', 'important');
+  navShell.style.setProperty('box-shadow', 'none', 'important');
+  navShell.style.setProperty('background', 'transparent', 'important');
+  navShell.style.setProperty('backdrop-filter', 'none', 'important');
+  navShell.style.setProperty('-webkit-backdrop-filter', 'none', 'important');
+  navShell.style.setProperty('border-radius', '0', 'important');
+});
