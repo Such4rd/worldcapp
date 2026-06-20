@@ -29,7 +29,7 @@
     }
 
     /* NAV */
-    nav {
+    nav-shell {
       position: fixed; top: 0; right: 0;
       padding: 20px 28px; z-index: 100;
       display: flex; gap: 24px;
@@ -1148,7 +1148,7 @@ body::before {
 
 /* unified top nav */
 .nav-shell {
-  position: relative !important;
+  position:fixed !important;
   top: auto !important;
   left: auto !important;
   transform: none !important;
