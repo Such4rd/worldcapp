@@ -3065,26 +3065,31 @@ body footer p {
   text-align: center !important;
 }
 
-/* =========================================================
-   RESPONSIVE REAL + ZOOM/ACCESIBILIDAD — JUNIO 2026
-   Capa final: no elimina componentes; corrige cortes por zoom alto,
-   textos largos, paneles rígidos y cabecera superpuesta.
-   ========================================================= */
 
+/* =========================================================
+   FIX RESPONSIVE REAL / ACCESIBILIDAD MÓVIL > 100%
+   =========================================================
+   Objetivo:
+   - No bloquear el alto de la portada.
+   - No ocultar textos cuando el navegador aumenta tamaño/zoom.
+   - Evitar scroll horizontal real.
+   - Hacer que cards, acordeones, timeline y formulario reflu yan
+     a una sola columna en móvil.
+*/
 html {
   width: 100% !important;
   max-width: 100% !important;
-  overflow-x: hidden !important;
-  scroll-padding-top: clamp(86px, 13svh, 128px) !important;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
+  overflow-x: clip !important;
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
 }
 
 body {
   width: 100% !important;
-  min-width: 0 !important;
   max-width: 100% !important;
-  overflow-x: hidden !important;
+  min-width: 0 !important;
+  overflow-x: clip !important;
+  overflow-y: auto !important;
 }
 
 *,
@@ -3100,628 +3105,550 @@ canvas {
   max-width: 100%;
 }
 
-p,
-li,
-a,
-span,
-strong,
-label,
-summary,
-button,
-input,
-select,
-textarea,
-.t-desc,
-.accordion-copy,
-.loc-address,
-.info-list a,
-.recovery-panel,
-footer p {
-  overflow-wrap: anywhere;
-  word-break: normal;
-}
-
-/* La navegación conserva el formato de píldora, pero deja de tapar contenido.
-   Sticky se queda visible al hacer scroll y además ocupa su espacio real. */
-body .nav-shell {
-  position: sticky !important;
-  top: max(8px, env(safe-area-inset-top)) !important;
-  right: auto !important;
-  bottom: auto !important;
-  left: auto !important;
-  transform: none !important;
-  width: min(calc(100% - 22px), 980px) !important;
-  max-width: calc(100% - 22px) !important;
-  height: auto !important;
-  min-height: 0 !important;
-  margin: 10px auto 0 !important;
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) clamp(42px, 7vw, 58px) minmax(0, 1fr) minmax(0, 1fr) !important;
-  align-items: center !important;
-  gap: clamp(2px, 0.7vw, 7px) !important;
-  padding: clamp(7px, 1.6vw, 10px) clamp(8px, 2vw, 14px) !important;
-  box-sizing: border-box !important;
-  border-radius: 999px !important;
-  overflow: visible !important;
-  z-index: 500 !important;
-}
-
-body .nav-shell a {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+section,
+#plan,
+#location,
+#extra-info,
+#rsvp,
+footer {
   width: 100% !important;
   max-width: 100% !important;
-  min-width: 0 !important;
-  height: auto !important;
-  padding: 2px 2px !important;
-  text-align: center !important;
-  white-space: normal !important;
-  line-height: 1.15 !important;
-  font-size: clamp(6.5px, 1.45vw, 11px) !important;
-  letter-spacing: clamp(0.04em, 0.55vw, 0.22em) !important;
+  overflow-x: clip !important;
 }
 
-body .nav-logo {
-  width: clamp(38px, 7vw, 50px) !important;
-  height: clamp(38px, 7vw, 50px) !important;
-  min-width: clamp(38px, 7vw, 50px) !important;
-  margin: -4px auto !important;
-  border-radius: 50% !important;
-  flex: none !important;
+section,
+#plan > div,
+#rsvp > div {
+  box-sizing: border-box !important;
+  padding-left: clamp(16px, 5vw, 24px) !important;
+  padding-right: clamp(16px, 5vw, 24px) !important;
 }
 
-body .nav-logo img {
-  width: 88% !important;
-  height: 88% !important;
-  object-fit: contain !important;
-}
-
-/* Portada: se elimina la causa del corte: altura cerrada + overflow hidden.
-   Si el usuario sube zoom o tamaño de texto, la portada crece y permite scroll. */
+/* La portada puede crecer. Con accesibilidad alta, ocultar overflow-y corta contenido. */
 body #hero {
-  width: 100% !important;
-  max-width: 100% !important;
   height: auto !important;
-  min-height: calc(100svh - 82px) !important;
-  overflow: visible !important;
-  padding: clamp(30px, 6svh, 64px) clamp(14px, 4vw, 24px) clamp(72px, 10svh, 124px) !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: clamp(7px, 1.35svh, 15px) !important;
-  box-sizing: border-box !important;
+  min-height: 100svh !important;
+  overflow-x: clip !important;
+  overflow-y: visible !important;
+}
+
+@supports (min-height: 100dvh) {
+  body #hero {
+    min-height: 100dvh !important;
+  }
 }
 
 body .hero-tag,
 body .hero-names,
 body .hero-subtitle,
 body .hero-date,
-body .counter-wrap,
-body .hero-skyline {
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-body .hero-tag {
-  margin: 0 0 clamp(12px, 2.2svh, 26px) !important;
-  font-size: clamp(13px, 2.2vw, 24px) !important;
-  letter-spacing: clamp(0.10em, 0.75vw, 0.24em) !important;
-  line-height: 1.14 !important;
-  white-space: normal !important;
-}
-
-body .hero-names {
-  width: 100% !important;
-  display: flex !important;
-  flex-wrap: nowrap !important;
-  align-items: flex-end !important;
-  justify-content: center !important;
-  overflow: visible !important;
-  white-space: nowrap !important;
-  font-size: clamp(42px, 9.2vw, 110px) !important;
-  letter-spacing: -0.06em !important;
-  line-height: 0.96 !important;
-}
-
-body .hero-names .name-left,
-body .hero-names .name-right,
-body .hero-names .amp {
-  flex: 0 1 auto !important;
-  min-width: 0 !important;
-}
-
-body .hero-subtitle {
-  margin: 0 !important;
-  font-size: clamp(22px, 4.2vw, 46px) !important;
-  line-height: 1.06 !important;
-}
-
-body .hero-date {
-  margin: clamp(10px, 2.1svh, 28px) auto 0 !important;
-  width: min(100%, 760px) !important;
-  font-size: clamp(12px, 2.05vw, 22px) !important;
-  letter-spacing: clamp(0.08em, 0.9vw, 0.24em) !important;
-  line-height: 1.35 !important;
-  text-align: center !important;
-  white-space: normal !important;
-}
-
-body .hero-date strong {
-  display: inline-block !important;
-  max-width: 100% !important;
-  white-space: normal !important;
-}
-
-body .counter-wrap {
-  width: min(100%, 640px) !important;
-  margin: clamp(12px, 2.2svh, 28px) auto 0 !important;
-  display: grid !important;
-  grid-template-columns: minmax(0, 1fr) clamp(4px, 0.9vw, 9px) minmax(0, 1fr) clamp(4px, 0.9vw, 9px) minmax(0, 1fr) clamp(4px, 0.9vw, 9px) minmax(0, 1fr) !important;
-  align-items: start !important;
-  justify-content: center !important;
-  gap: clamp(3px, 1vw, 12px) !important;
-  padding: 0 !important;
-  box-sizing: border-box !important;
-}
-
-body .counter-unit {
-  min-width: 0 !important;
-  width: auto !important;
-  text-align: center !important;
-}
-
-body .counter-num {
-  font-size: clamp(28px, 6.4vw, 80px) !important;
-  line-height: 0.98 !important;
-  white-space: nowrap !important;
-}
-
-body .counter-label {
-  margin-top: clamp(4px, 0.8svh, 8px) !important;
-  font-size: clamp(6px, 1.35vw, 9px) !important;
-  letter-spacing: clamp(0.08em, 0.6vw, 0.22em) !important;
-  line-height: 1.2 !important;
-  white-space: normal !important;
-}
-
-body .counter-sep {
-  align-self: start !important;
-  justify-self: center !important;
-  width: clamp(4px, 0.9vw, 9px) !important;
-  height: clamp(4px, 0.9vw, 9px) !important;
-  margin-top: clamp(12px, 3.3vw, 30px) !important;
-  min-width: 0 !important;
-  flex: none !important;
-}
-
-body .hero-skyline {
-  position: relative !important;
-  left: auto !important;
-  right: auto !important;
-  top: auto !important;
-  bottom: auto !important;
-  transform: none !important;
-  display: block !important;
-  width: min(64vw, 680px) !important;
-  max-width: calc(100vw - 28px) !important;
-  height: auto !important;
-  aspect-ratio: 2048 / 682 !important;
-  margin: clamp(18px, 3svh, 32px) auto 0 !important;
-  background-image: url('skyline-mario-gema-rojo-transparente.png') !important;
-  background-repeat: no-repeat !important;
-  background-position: center center !important;
-  background-size: contain !important;
-  pointer-events: none !important;
-}
-
-body .bpm-bar {
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow: hidden !important;
-}
-
-/* Contenedores generales: paneles fluidos y sin desbordes horizontales. */
-body section,
-body #plan > div,
-body #rsvp > div {
-  width: min(100%, 900px) !important;
-  max-width: 100% !important;
-  padding-inline: clamp(16px, 4vw, 24px) !important;
-  padding-block: clamp(50px, 8vw, 80px) !important;
-  box-sizing: border-box !important;
-}
-
-body #plan,
-body #rsvp,
-body #extra-info,
-body #location,
-body footer {
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow-x: hidden !important;
-  box-sizing: border-box !important;
-}
-
 body .section-title,
-body .info-subtitle {
+body .info-subtitle,
+body .t-name,
+body .t-desc,
+body .loc-address,
+body .loc-day span,
+body .info-accordion summary,
+body .info-list a,
+body .accordion-copy,
+body label,
+body .radio-option span,
+body .btn-submit,
+body .recovery-panel,
+body footer {
+  max-width: 100% !important;
+  overflow-wrap: anywhere !important;
+  word-break: normal !important;
+}
+
+body input,
+body select,
+body textarea,
+body button {
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+body input:not([type="radio"]),
+body select,
+body textarea {
   width: 100% !important;
-  max-width: 100% !important;
-  font-size: clamp(26px, 6vw, 70px) !important;
-  letter-spacing: clamp(0.015em, 0.45vw, 0.04em) !important;
-  line-height: 1.08 !important;
-  overflow-wrap: anywhere !important;
 }
 
-body .section-title .glitch,
-body .info-subtitle .glitch,
-body .btn-submit .glitch {
-  max-width: 100% !important;
-  white-space: normal !important;
-  overflow-wrap: anywhere !important;
-}
-
-body .timeline,
-body .timeline-item,
-body .t-content,
-body .t-header,
 body .loc-card,
 body .info-card,
 body .info-accordion,
 body .restaurant-group,
 body .guest-block,
-body .main-guest-block,
-body #rsvp-form-wrap,
-body .form-grid,
-body .form-group,
-body .recovery-panel {
-  max-width: 100% !important;
-  min-width: 0 !important;
+body .child-row,
+body .recovery-panel,
+body #no-asiste-msg {
   box-sizing: border-box !important;
-}
-
-body .t-header {
-  flex-wrap: wrap !important;
-  row-gap: 4px !important;
-}
-
-body .t-name {
   max-width: 100% !important;
-  font-size: clamp(18px, 3.8vw, 26px) !important;
-  letter-spacing: clamp(0.02em, 0.35vw, 0.05em) !important;
-  line-height: 1.08 !important;
+}
+
+/* Escritorio: se mantiene fijo, pero sin cortar el contenido si el usuario amplía. */
+body .nav-shell {
+  max-width: calc(100vw - 20px) !important;
+  overflow: visible !important;
+}
+
+body .nav-shell a {
+  min-width: 0 !important;
   overflow-wrap: anywhere !important;
 }
 
-body .t-desc,
-body .accordion-copy,
-body .info-list a,
-body .info-list li,
-body .loc-address,
-body .restaurant-group h4 {
-  max-width: 100% !important;
-}
-
-body .loc-card {
-  padding: clamp(22px, 4.8vw, 40px) !important;
-}
-
-body .loc-card-split {
-  grid-template-columns: minmax(0, 1fr) minmax(min(100%, 280px), 0.9fr) !important;
-}
-
-body .info-accordion summary {
-  gap: 12px !important;
-  align-items: flex-start !important;
-  padding: clamp(16px, 4.4vw, 20px) clamp(16px, 4.8vw, 24px) !important;
-  font-size: clamp(18px, 4.5vw, 30px) !important;
-  line-height: 1.12 !important;
-}
-
-body .info-accordion summary span {
-  min-width: 0 !important;
-  max-width: 100% !important;
-  flex: 1 1 auto !important;
-  flex-wrap: wrap !important;
-}
-
-body .info-accordion summary::after {
-  flex: 0 0 auto !important;
-  margin-left: 8px !important;
-}
-
-body .restaurant-groups,
-body .info-grid,
-body .info-grid-rich {
-  max-width: 100% !important;
-  min-width: 0 !important;
-}
-
-body input:not([type="radio"]):not([type="checkbox"]),
-body select,
-body textarea {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 0 !important;
-  box-sizing: border-box !important;
-}
-
-body .radio-group,
-body .radio-option {
-  max-width: 100% !important;
-  min-width: 0 !important;
-}
-
-body .radio-option {
-  align-items: flex-start !important;
-}
-
-body .btn-submit,
-body #btn-confirmar,
-body #btn-no-asiste,
-body .recovery-toggle {
-  max-width: 100% !important;
-  white-space: normal !important;
-  line-height: 1.18 !important;
-}
-
-body .recovery-line,
-body .iban-copy {
-  flex-wrap: wrap !important;
-  max-width: 100% !important;
-}
-
-body .iban-copy code {
-  max-width: 100% !important;
-  white-space: normal !important;
-  overflow-wrap: anywhere !important;
-  word-break: break-word !important;
-}
-
-body #toast {
-  width: min(calc(100vw - 24px), 620px) !important;
-  max-width: calc(100vw - 24px) !important;
-  box-sizing: border-box !important;
-  text-align: center !important;
-}
-
-body footer {
-  padding: clamp(28px, 6vw, 40px) clamp(14px, 4vw, 24px) !important;
-}
-
-body footer p {
-  font-size: clamp(8px, 2.4vw, 11px) !important;
-  letter-spacing: clamp(0.07em, 0.7vw, 0.25em) !important;
-  line-height: 1.6 !important;
+body .hero-skyline {
+  background-image: url('skyline-mario-gema-rojo-transparente.png') !important;
 }
 
 @media (max-width: 900px) {
+  body .info-grid,
+  body .info-grid-rich,
+  body .restaurant-groups,
   body .loc-card-split,
-  body .form-grid,
   body .guest-block,
-  body .main-guest-block {
-    grid-template-columns: 1fr !important;
+  body .main-guest-block,
+  body .children-counter-block,
+  body .companion-row,
+  body .child-row,
+  body .form-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  body .form-group.full,
+  body .guest-block,
+  body #acompanantes-section,
+  body #children-data-group,
+  body .recovery-area-rsvp,
+  body #no-asiste-msg,
+  body #no-asiste-btn-wrap,
+  body .btn-submit {
+    grid-column: 1 / -1 !important;
+  }
+
+  body .info-card,
+  body .loc-card,
+  body .info-accordion summary,
+  body .restaurant-group,
+  body .guest-block,
+  body #no-asiste-msg,
+  body .recovery-panel {
+    padding-left: clamp(14px, 4vw, 22px) !important;
+    padding-right: clamp(14px, 4vw, 22px) !important;
   }
 }
 
 @media (max-width: 720px) {
   html {
-    scroll-padding-top: clamp(84px, 18svh, 126px) !important;
+    scroll-padding-top: 72px;
   }
 
+  /* En móvil la nav deja de ir superpuesta a la portada.
+     Sticky ocupa espacio real y evita que tape el hero con texto ampliado. */
   body .nav-shell {
-    width: calc(100% - 12px) !important;
-    max-width: calc(100% - 12px) !important;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) clamp(34px, 11vw, 42px) minmax(0, 1fr) minmax(0, 1fr) !important;
-    gap: 1px !important;
-    padding: 7px 6px !important;
-    border-radius: 28px !important;
+    position: sticky !important;
+    top: 0 !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 0 18px 18px !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 42px minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 2px !important;
+    padding: 8px max(8px, env(safe-area-inset-left)) 8px max(8px, env(safe-area-inset-right)) !important;
+    overflow: visible !important;
   }
 
   body .nav-shell a {
-    font-size: clamp(5.4px, 1.9vw, 7.6px) !important;
-    letter-spacing: clamp(0.015em, 0.35vw, 0.09em) !important;
-    line-height: 1.12 !important;
-    padding-inline: 1px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 38px !important;
+    padding: 3px 1px !important;
+    font-size: clamp(6px, 1.65vw, 8px) !important;
+    line-height: 1.15 !important;
+    letter-spacing: 0.045em !important;
+    white-space: normal !important;
+    text-align: center !important;
+    overflow-wrap: anywhere !important;
   }
 
   body .nav-logo {
-    width: clamp(34px, 11vw, 42px) !important;
-    height: clamp(34px, 11vw, 42px) !important;
-    min-width: clamp(34px, 11vw, 42px) !important;
+    width: 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    align-self: center !important;
   }
 
   body #hero {
-    min-height: calc(100svh - 72px) !important;
-    padding: clamp(28px, 5svh, 44px) clamp(10px, 3.6vw, 16px) clamp(60px, 9svh, 92px) !important;
-    gap: clamp(6px, 1.15svh, 12px) !important;
+    min-height: calc(100svh - 58px) !important;
+    padding: clamp(38px, 8svh, 64px) clamp(10px, 4vw, 16px) 44px !important;
+    display: flex !important;
+    justify-content: flex-start !important;
+    overflow-y: visible !important;
+  }
+
+  @supports (min-height: 100dvh) {
+    body #hero {
+      min-height: calc(100dvh - 58px) !important;
+    }
   }
 
   body .hero-tag {
-    font-size: clamp(13px, 4.4vw, 19px) !important;
-    letter-spacing: clamp(0.08em, 0.75vw, 0.16em) !important;
-    margin-bottom: clamp(12px, 2.8svh, 22px) !important;
+    font-size: clamp(11px, 3.2vw, 15px) !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0.14em !important;
+    margin-bottom: clamp(16px, 5vw, 28px) !important;
+    white-space: normal !important;
   }
 
   body .hero-names {
-    font-size: clamp(28px, 11.2vw, 58px) !important;
-    letter-spacing: -0.075em !important;
-    line-height: 0.98 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: baseline !important;
+    row-gap: 0 !important;
+    overflow: visible !important;
+    font-size: clamp(32px, 11.5vw, 52px) !important;
+    line-height: 1.02 !important;
+    letter-spacing: -0.055em !important;
+    white-space: normal !important;
+    text-wrap: balance;
+  }
+
+  body .hero-names .name-left,
+  body .hero-names .name-right,
+  body .hero-names .amp {
+    flex: 0 1 auto !important;
+    max-width: 100% !important;
   }
 
   body .hero-names .amp {
+    margin: 0 0.02em !important;
     font-size: 0.86em !important;
-    margin-inline: -0.012em !important;
   }
 
   body .hero-subtitle {
-    font-size: clamp(20px, 7vw, 30px) !important;
+    margin-top: clamp(8px, 3vw, 14px) !important;
+    font-size: clamp(22px, 7vw, 31px) !important;
+    line-height: 1.08 !important;
   }
 
   body .hero-date {
-    margin-top: clamp(16px, 3svh, 28px) !important;
-    font-size: clamp(10px, 3.15vw, 14px) !important;
-    letter-spacing: clamp(0.06em, 0.8vw, 0.11em) !important;
+    max-width: min(100%, 28rem) !important;
+    margin-top: clamp(22px, 7vw, 34px) !important;
+    font-size: clamp(11px, 3.25vw, 15px) !important;
+    line-height: 1.38 !important;
+    letter-spacing: 0.06em !important;
+    text-align: center !important;
+  }
+
+  body .hero-date strong {
+    display: inline-block !important;
+    max-width: 100% !important;
+    white-space: normal !important;
   }
 
   body .counter-wrap {
-    width: min(100%, 430px) !important;
-    gap: clamp(2px, 0.7vw, 5px) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    justify-content: stretch !important;
+    align-items: start !important;
+    gap: 8px !important;
+    margin-top: clamp(18px, 5vw, 26px) !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  body .counter-sep {
+    display: none !important;
+  }
+
+  body .counter-unit {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
   }
 
   body .counter-num {
-    font-size: clamp(25px, 9.8vw, 40px) !important;
+    font-size: clamp(26px, 8.8vw, 38px) !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
   }
 
   body .counter-label {
-    font-size: clamp(5.8px, 1.75vw, 8px) !important;
-    letter-spacing: clamp(0.04em, 0.5vw, 0.12em) !important;
+    font-size: clamp(7px, 2.2vw, 10px) !important;
+    line-height: 1.15 !important;
+    letter-spacing: 0.045em !important;
+    white-space: normal !important;
   }
 
   body .hero-skyline {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    display: block !important;
     width: min(92vw, 520px) !important;
-    max-width: calc(100vw - 20px) !important;
-    margin-top: clamp(18px, 3svh, 28px) !important;
+    max-width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 2048 / 682 !important;
+    margin: clamp(20px, 6vw, 30px) auto 0 !important;
+    background-size: contain !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+
+  body .bpm-bar {
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    height: 14px !important;
+    margin-top: clamp(20px, 6vw, 30px) !important;
+    padding: 0 6px 4px !important;
   }
 
   body section,
   body #plan > div,
   body #rsvp > div {
-    padding-inline: clamp(14px, 4vw, 20px) !important;
-    padding-block: clamp(44px, 10vw, 64px) !important;
+    padding-top: clamp(46px, 11vw, 68px) !important;
+    padding-bottom: clamp(46px, 11vw, 68px) !important;
+    padding-left: clamp(14px, 4.4vw, 18px) !important;
+    padding-right: clamp(14px, 4.4vw, 18px) !important;
   }
 
   body .section-title {
-    font-size: clamp(24px, 8.4vw, 42px) !important;
-    line-height: 1.1 !important;
-    margin-bottom: clamp(20px, 6vw, 34px) !important;
+    font-size: clamp(26px, 9.4vw, 40px) !important;
+    line-height: 1.05 !important;
+    letter-spacing: 0.025em !important;
+    margin-bottom: clamp(18px, 6vw, 34px) !important;
+    white-space: normal !important;
+  }
+
+  body .section-title .glitch,
+  body .info-subtitle .glitch {
+    display: inline !important;
+    white-space: normal !important;
+    text-wrap: balance;
   }
 
   body .timeline-item {
-    grid-template-columns: clamp(66px, 22vw, 84px) 1px minmax(0, 1fr) !important;
-    gap: 0 clamp(10px, 3.5vw, 16px) !important;
-    padding-bottom: clamp(32px, 8vw, 44px) !important;
+    grid-template-columns: minmax(54px, 68px) 1px minmax(0, 1fr) !important;
+    gap: 0 12px !important;
+    padding-bottom: 36px !important;
+  }
+
+  body .timeline-divider {
+    font-size: clamp(10px, 3vw, 12px) !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0.12em !important;
+    overflow-wrap: anywhere !important;
   }
 
   body .t-time {
-    font-size: clamp(9px, 2.7vw, 12px) !important;
+    font-size: clamp(10px, 2.7vw, 12px) !important;
+    line-height: 1.35 !important;
     letter-spacing: 0.02em !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  body .t-header {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+  }
+
+  body .t-img-icon {
+    flex: 0 0 28px !important;
+    width: 28px !important;
+    height: 28px !important;
   }
 
   body .t-name {
-    font-size: clamp(16px, 5.6vw, 22px) !important;
+    font-size: clamp(17px, 5.5vw, 24px) !important;
+    line-height: 1.08 !important;
+    letter-spacing: 0.025em !important;
   }
 
   body .t-desc,
-  body .info-card p,
   body .accordion-copy,
-  body .loc-address {
-    font-size: clamp(12px, 3.25vw, 14px) !important;
-    line-height: 1.58 !important;
-  }
-
-  body .loc-card,
-  body .info-card,
-  body .restaurant-group,
+  body .loc-address,
+  body .info-list li,
   body .recovery-panel {
-    padding: clamp(16px, 4.4vw, 22px) !important;
+    font-size: clamp(13px, 3.7vw, 15px) !important;
+    line-height: 1.6 !important;
   }
 
-  body .restaurant-groups,
-  body .info-list.link-list {
-    padding-inline: clamp(16px, 4.8vw, 24px) !important;
-    padding-bottom: clamp(16px, 4.8vw, 24px) !important;
+  body .info-subtitle {
+    font-size: clamp(21px, 7.2vw, 30px) !important;
+    line-height: 1.08 !important;
+    letter-spacing: 0.03em !important;
+  }
+
+  body .info-accordion {
+    overflow: visible !important;
+  }
+
+  body .info-accordion summary {
+    align-items: flex-start !important;
+    gap: 10px !important;
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+    font-size: clamp(18px, 6vw, 24px) !important;
+    line-height: 1.12 !important;
+    letter-spacing: 0.025em !important;
+  }
+
+  body .info-accordion summary span {
+    min-width: 0 !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  body .info-accordion summary::after {
+    flex: 0 0 auto !important;
+    margin-left: 8px !important;
+  }
+
+  body .info-list.link-list,
+  body .accordion-copy,
+  body .restaurant-groups {
+    padding-left: clamp(14px, 4vw, 22px) !important;
+    padding-right: clamp(14px, 4vw, 22px) !important;
+  }
+
+  body .info-list a {
+    font-size: clamp(12px, 3.5vw, 14px) !important;
+    line-height: 1.35 !important;
+    letter-spacing: 0.03em !important;
+  }
+
+  body .loc-day span,
+  body label {
+    font-size: clamp(10px, 3vw, 12px) !important;
+    line-height: 1.35 !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  body .radio-group {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  body .radio-option {
+    width: 100% !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  body .radio-option span {
+    font-size: clamp(12px, 3.6vw, 14px) !important;
+    line-height: 1.35 !important;
+    white-space: normal !important;
+  }
+
+  body .counter-control,
+  body .counter-control-small {
+    width: 100% !important;
+    justify-content: center !important;
   }
 
   body .btn-submit,
+  body #btn-no-asiste,
   body #btn-confirmar,
-  body #btn-no-asiste {
-    padding: 15px 18px !important;
-    font-size: clamp(14px, 4.4vw, 18px) !important;
-    letter-spacing: clamp(0.06em, 0.8vw, 0.14em) !important;
+  body .recovery-toggle {
+    width: 100% !important;
+    white-space: normal !important;
+    font-size: clamp(13px, 3.6vw, 17px) !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0.06em !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  body .recovery-line {
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  body .iban-copy code {
+    max-width: 100% !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    font-size: clamp(12px, 3.5vw, 15px) !important;
+  }
+
+  body #toast {
+    width: calc(100vw - 28px) !important;
+    max-width: calc(100vw - 28px) !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    text-align: center !important;
   }
 }
 
 @media (max-width: 380px) {
   body .nav-shell {
-    width: calc(100% - 8px) !important;
-    max-width: calc(100% - 8px) !important;
-    padding: 6px 5px !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 38px minmax(0, 1fr) minmax(0, 1fr) !important;
+  }
+
+  body .nav-logo {
+    width: 38px !important;
+    height: 38px !important;
+    min-height: 38px !important;
   }
 
   body .nav-shell a {
-    font-size: clamp(5px, 1.75vw, 6.4px) !important;
-    letter-spacing: 0.01em !important;
-  }
-
-  body #hero {
-    padding-inline: 9px !important;
-  }
-
-  body .hero-tag {
-    font-size: clamp(12px, 4.2vw, 16px) !important;
+    font-size: clamp(5.5px, 1.55vw, 7px) !important;
+    letter-spacing: 0.025em !important;
   }
 
   body .hero-names {
-    font-size: clamp(26px, 10.6vw, 39px) !important;
+    font-size: clamp(29px, 10.5vw, 42px) !important;
+    letter-spacing: -0.045em !important;
   }
 
-  body .hero-date {
-    font-size: clamp(9.5px, 3vw, 12px) !important;
-  }
-
-  body .counter-num {
-    font-size: clamp(23px, 9.2vw, 34px) !important;
-  }
-
-  body .hero-skyline {
-    width: 94vw !important;
+  body .counter-wrap {
+    gap: 5px !important;
   }
 
   body .timeline-item {
-    grid-template-columns: clamp(58px, 21vw, 70px) 1px minmax(0, 1fr) !important;
-    gap: 0 9px !important;
+    grid-template-columns: minmax(48px, 58px) 1px minmax(0, 1fr) !important;
+    gap: 0 10px !important;
   }
 }
 
-@media (max-width: 330px) {
-  body .timeline-item {
-    grid-template-columns: 1fr !important;
-    gap: 8px !important;
-  }
-
-  body .t-line {
-    display: none !important;
-  }
-
-  body .t-time {
-    text-align: left !important;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
   }
 }
 
-@media (max-height: 680px) and (max-width: 720px) {
-  body #hero {
-    justify-content: flex-start !important;
-    padding-top: clamp(24px, 4svh, 34px) !important;
-  }
-
-  body .hero-tag {
-    margin-bottom: 10px !important;
-  }
-
-  body .hero-date,
-  body .counter-wrap,
-  body .hero-skyline {
-    margin-top: 12px !important;
-  }
-}
-
-@supports not (height: 100svh) {
-  body #hero {
-    min-height: calc(100vh - 82px) !important;
+/* Ajuste extra: la animación inicial del timeline no debe crear desbordamiento lateral en móvil. */
+@media (max-width: 720px) {
+  body .timeline-item,
+  body .timeline-item.visible {
+    transform: none !important;
+    opacity: 1 !important;
   }
 }
