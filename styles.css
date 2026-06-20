@@ -3725,3 +3725,23 @@ body footer p {
     min-height: calc(100vh - 82px) !important;
   }
 }
+
+
+/* =========================================================
+   AJUSTE VISUAL CABECERA / FONDO SUPERIOR
+   - La franja superior visible detrás del navegador/cabecera
+     se integra con la portada para que no parezca separada.
+   ========================================================= */
+body {
+  background:
+    linear-gradient(
+      180deg,
+      var(--hero-bg-0) 0px,
+      var(--hero-bg-1) 110px,
+      var(--bg) 250px
+    ) !important;
+}
+
+body .nav-shell {
+  background: rgba(249, 242, 235, 0.72) !important;
+}
