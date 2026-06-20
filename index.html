@@ -1,914 +1,531 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Mundial Hub 2026</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ink: #0f0e0c;
-    --paper: #f5f0e8;
-    --paper2: #ede8df;
-    --gold: #c9a84c;
-    --red: #c0392b;
-    --gray: #7a7670;
-    --light: #ffffff;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bodorrio Fest — Mario & Gema</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Bebas+Neue&family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400&family=Audiowide&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
 
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+<!-- FAVICON -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Barlow', sans-serif;
-    max-width: 430px;
-    margin: 0 auto;
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
-  }
-
-  /* GRAIN TEXTURE */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 1000;
-    opacity: 0.5;
-  }
-
-  /* TICKER */
-  .ticker-wrap {
-    background: var(--ink);
-    color: var(--gold);
-    overflow: hidden;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 2px solid var(--gold);
-  }
-  .ticker-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 2px;
-    background: var(--red);
-    color: white;
-    padding: 0 10px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .ticker-track {
-    display: flex;
-    animation: ticker 35s linear infinite;
-    white-space: nowrap;
-  }
-  .ticker-track span {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    padding: 0 24px;
-    color: var(--paper);
-  }
-  .ticker-track span::after {
-    content: '◆';
-    margin-left: 24px;
-    color: var(--gold);
-    font-size: 8px;
-  }
-  @keyframes ticker {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-  }
-
-  /* HEADER */
-  .masthead {
-    background: var(--paper);
-    border-bottom: 3px solid var(--ink);
-    padding: 12px 16px 10px;
-  }
-  .masthead-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 4px;
-  }
-  .date-line {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px;
-    letter-spacing: 2px;
-    color: var(--gray);
-    text-transform: uppercase;
-  }
-  .edition {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px;
-    letter-spacing: 1px;
-    color: var(--gray);
-    border: 1px solid var(--gray);
-    padding: 1px 5px;
-  }
-  .logo {
-    font-family: 'Playfair Display', serif;
-    font-weight: 900;
-    font-size: 32px;
-    letter-spacing: -1px;
-    line-height: 1;
-    text-align: center;
-    text-transform: uppercase;
-  }
-  .logo span {
-    color: var(--red);
-  }
-  .logo-sub {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px;
-    letter-spacing: 4px;
-    text-align: center;
-    color: var(--gray);
-    text-transform: uppercase;
-    margin-top: 2px;
-  }
-  .masthead-rule {
-    border: none;
-    border-top: 1px solid var(--ink);
-    margin-top: 10px;
-  }
-
-  /* BOTTOM NAV */
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 430px;
-    background: var(--ink);
-    display: flex;
-    border-top: 2px solid var(--gold);
-    z-index: 200;
-  }
-  .nav-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 8px 4px;
-    cursor: pointer;
-    transition: background 0.15s;
-    border: none;
-    background: transparent;
-    color: var(--gray);
-    gap: 3px;
-  }
-  .nav-item.active { color: var(--gold); }
-  .nav-item:active { background: rgba(201,168,76,0.1); }
-  .nav-icon { font-size: 18px; line-height: 1; }
-  .nav-label {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 9px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-
-  /* MAIN CONTENT */
-  .content {
-    padding: 0 0 80px;
-  }
-  .page { display: none; }
-  .page.active { display: block; }
-
-  /* SECTION HEADERS */
-  .section-head {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 16px 8px;
-    border-bottom: 2px solid var(--ink);
-    margin-bottom: 0;
-  }
-  .section-title {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gray);
-  }
-  .section-rule { flex: 1; height: 1px; background: var(--paper2); }
-
-  /* NEWS CARDS */
-  .news-hero {
-    margin: 0;
-    border-bottom: 2px solid var(--ink);
-    position: relative;
-    overflow: hidden;
-    animation: fadeUp 0.4s ease both;
-  }
-  .news-hero-img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    display: block;
-    filter: sepia(20%) contrast(1.05);
-  }
-  .news-hero-img-placeholder {
-    width: 100%;
-    height: 200px;
-    background: linear-gradient(135deg, var(--ink) 0%, #2c2a26 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 64px;
-  }
-  .news-hero-body {
-    padding: 14px 16px 16px;
-    background: var(--paper);
-  }
-  .news-tag {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: white;
-    background: var(--red);
-    padding: 2px 7px;
-    display: inline-block;
-    margin-bottom: 8px;
-  }
-  .news-tag.gold { background: var(--gold); color: var(--ink); }
-  .news-tag.dark { background: var(--ink); }
-  .news-hero-title {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 22px;
-    line-height: 1.2;
-    margin-bottom: 8px;
-  }
-  .news-hero-excerpt {
-    font-size: 13px;
-    line-height: 1.5;
-    color: #3a3830;
-    margin-bottom: 10px;
-  }
-  .news-meta {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px;
-    letter-spacing: 1px;
-    color: var(--gray);
-    text-transform: uppercase;
-    display: flex;
-    gap: 12px;
-  }
-
-  .news-list { }
-  .news-item {
-    display: flex;
-    gap: 12px;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--paper2);
-    animation: fadeUp 0.4s ease both;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-  .news-item:active { background: var(--paper2); }
-  .news-item-img {
-    width: 80px;
-    height: 64px;
-    object-fit: cover;
-    flex-shrink: 0;
-    filter: sepia(15%);
-  }
-  .news-item-img-placeholder {
-    width: 80px;
-    height: 64px;
-    background: var(--ink);
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-  }
-  .news-item-body { flex: 1; min-width: 0; }
-  .news-item-title {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 1.3;
-    margin-bottom: 4px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .news-item-meta {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 10px;
-    letter-spacing: 1px;
-    color: var(--gray);
-    text-transform: uppercase;
-  }
-
-  /* MATCHES */
-  .match-day-label {
-    padding: 10px 16px 6px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 10px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--gray);
-    background: var(--paper2);
-    border-bottom: 1px solid #d8d3c9;
-    border-top: 1px solid #d8d3c9;
-  }
-  .match-card {
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--paper2);
-    animation: fadeUp 0.3s ease both;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-  .match-card:active { background: var(--paper2); }
-  .match-competition {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gray);
-    margin-bottom: 8px;
-  }
-  .match-teams {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-  }
-  .match-team {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    flex: 1;
-  }
-  .team-flag { font-size: 32px; line-height: 1; }
-  .team-name {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    text-align: center;
-  }
-  .match-center {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    min-width: 80px;
-  }
-  .match-score {
-    font-family: 'Playfair Display', serif;
-    font-weight: 900;
-    font-size: 28px;
-    letter-spacing: 4px;
-    line-height: 1;
-  }
-  .match-time {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: var(--gray);
-    text-transform: uppercase;
-  }
-  .match-time.live {
-    color: var(--red);
-    font-weight: 700;
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-  .match-status-badge {
-    display: inline-block;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 2px 6px;
-    margin-top: 2px;
-  }
-  .badge-live { background: var(--red); color: white; }
-  .badge-done { background: var(--paper2); color: var(--gray); }
-  .badge-soon { background: var(--ink); color: var(--gold); }
-
-  /* GROUPS / STANDINGS */
-  .group-block {
-    margin-bottom: 0;
-    border-bottom: 2px solid var(--ink);
-    animation: fadeUp 0.35s ease both;
-  }
-  .group-header {
-    background: var(--ink);
-    color: var(--gold);
-    padding: 8px 16px;
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .group-table { width: 100%; border-collapse: collapse; }
-  .group-table th {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 9px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--gray);
-    padding: 6px 8px 6px;
-    text-align: center;
-    border-bottom: 1px solid var(--paper2);
-    background: var(--paper);
-  }
-  .group-table th:first-child { text-align: left; padding-left: 16px; }
-  .group-table td {
-    padding: 9px 8px;
-    text-align: center;
-    border-bottom: 1px solid var(--paper2);
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 14px;
-  }
-  .group-table td:first-child {
-    text-align: left;
-    padding-left: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .group-table tr.qualify td { background: rgba(201,168,76,0.08); }
-  .pos-num {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 11px;
-    color: var(--gray);
-    width: 14px;
-    flex-shrink: 0;
-  }
-  .country-flag { font-size: 18px; }
-  .country-name {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.5px;
-  }
-  .pts-cell {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 15px;
-    color: var(--ink);
-  }
-
-  /* ANIMATIONS */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
-
-  /* STAGGER */
-  .news-item:nth-child(1) { animation-delay: 0.05s; }
-  .news-item:nth-child(2) { animation-delay: 0.1s; }
-  .news-item:nth-child(3) { animation-delay: 0.15s; }
-  .news-item:nth-child(4) { animation-delay: 0.2s; }
-  .news-item:nth-child(5) { animation-delay: 0.25s; }
-  .match-card:nth-child(1) { animation-delay: 0.05s; }
-  .match-card:nth-child(2) { animation-delay: 0.1s; }
-  .match-card:nth-child(3) { animation-delay: 0.15s; }
-  .group-block:nth-child(1) { animation-delay: 0.05s; }
-  .group-block:nth-child(2) { animation-delay: 0.1s; }
-  .group-block:nth-child(3) { animation-delay: 0.15s; }
-
-  /* DIVIDER */
-  .col-divider {
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    margin: 4px 0;
-    gap: 8px;
-  }
-  .col-divider::before, .col-divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--paper2);
-  }
-  .col-divider-text {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 9px;
-    letter-spacing: 2px;
-    color: var(--gray);
-    text-transform: uppercase;
-  }
-</style>
+<!-- WHATSAPP / REDES SOCIALES (Open Graph) -->
+<meta property="og:site_name" content="Bodorrio Fest">
+<meta property="og:title" content="Mario & Gema · 17.10.2026">
+<meta property="og:description" content="¡Nos casamos! Confirma asistencia.">
+<meta property="og:url" content="https://gemaymariobodorriofest.com/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://gemaymariobodorriofest.com/og-image-whatsapp.jpg">
+<meta property="og:image:secure_url" content="https://gemaymariobodorriofest.com/og-image-whatsapp.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mario & Gema · 17.10.2026">
+<meta name="twitter:description" content="¡Nos casamos! Confirma asistencia.">
+<meta name="twitter:image" content="https://gemaymariobodorriofest.com/og-image-whatsapp.jpg">
 </head>
+
 <body>
 
-<!-- TICKER -->
-<div class="ticker-wrap">
-  <div class="ticker-label">⚡ LIVE</div>
-  <div style="overflow:hidden;flex:1">
-    <div class="ticker-track" id="ticker">
-      <span>España golea 4-0 a Marruecos en cuartos de final</span>
-      <span>Brasil y Argentina se enfrentarán en semifinales</span>
-      <span>Mbappé marca su gol número 12 en el torneo</span>
-      <span>Alemania elimina a Portugal en los penaltis</span>
-      <span>Estadio MetLife lleno para el partido inaugural</span>
-      <span>La FIFA confirma el horario de las semifinales</span>
-      <span>Pedri elegido mejor jugador de la fase de grupos</span>
-      <span>España golea 4-0 a Marruecos en cuartos de final</span>
-      <span>Brasil y Argentina se enfrentarán en semifinales</span>
-      <span>Mbappé marca su gol número 12 en el torneo</span>
-      <span>Alemania elimina a Portugal en los penaltis</span>
-      <span>Estadio MetLife lleno para el partido inaugural</span>
-      <span>La FIFA confirma el horario de las semifinales</span>
-      <span>Pedri elegido mejor jugador de la fase de grupos</span>
+<audio id="musicaFondo" loop preload="auto">
+  <source src="./backsong.mp3" type="audio/mpeg">
+</audio>
+
+<div class="skyline-watermark" aria-hidden="true"></div>
+
+<nav class="nav-shell">
+  <a href="#plan">Itinerario</a>
+  <a href="#location">Ubicación</a>
+  <a href="#hero" class="nav-logo" aria-label="Volver al inicio">
+    <img src="nav-logo-mg.svg" alt="Logo Mario y Gema" />
+  </a>
+  <a href="#extra-info">Info extra</a>
+  <a href="#rsvp">Confirmación</a>
+</nav>
+
+
+
+<!-- HERO -->
+<section id="hero">
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+
+  <p class="hero-tag glitch" data-text="¡NOS CASAMOS!">¡NOS CASAMOS!</p>
+
+  <h1 class="hero-names" aria-label="Mario y Gema">
+    <span class="name-left glitch" data-text="MARIO">MARIO</span><span class="amp">&</span><span class="name-right glitch" data-text="GEMA">GEMA</span>
+  </h1>
+  <p class="hero-subtitle">Bodorrio Fest</p>
+
+  <p class="hero-date">
+    <strong>SÁBADO 17 OCTUBRE 2026</strong>
+  </p>
+
+  <div class="counter-wrap">
+    <div class="counter-unit">
+      <span class="counter-num" id="cnt-d">00</span>
+      <span class="counter-label">Días</span>
+    </div>
+    <span class="counter-sep">:</span>
+    <div class="counter-unit">
+      <span class="counter-num" id="cnt-h">00</span>
+      <span class="counter-label">Horas</span>
+    </div>
+    <span class="counter-sep">:</span>
+    <div class="counter-unit">
+      <span class="counter-num" id="cnt-m">00</span>
+      <span class="counter-label">Min</span>
+    </div>
+    <span class="counter-sep">:</span>
+    <div class="counter-unit">
+      <span class="counter-num" id="cnt-s">00</span>
+      <span class="counter-label">Seg</span>
+    </div>
+  </div>
+
+  <div class="hero-skyline" aria-label="Ilustración skyline Mario y Gema"></div>
+
+  <div class="bpm-bar">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+</section>
+
+<!-- PLAN -->
+<div id="plan">
+  <div>
+    <p class="section-label" aria-hidden="true"></p>
+    <h2 class="section-title"><span class="glitch" data-text="ITINERARIO">ITINERARIO</span><br><span class="glitch" data-text="DEL FINDE">DEL FINDE</span></h2>
+
+    <div class="timeline">
+      <div class="timeline-divider">VIERNES 16</div>
+
+      <div class="timeline-item">
+        <div class="t-time">20:00h</div>
+        <div class="t-line"><div class="t-dot"></div></div>
+        <div class="t-content">
+          <div class="t-header">
+            <div class="t-img-icon" aria-hidden="true"><svg class="skyline-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M18 46l8-24l16 16l-24 8z"/><path d="M26 22l16 16"/><path d="M42 16c4-4 8-5 12-3"/><path d="M44 24c4-1 7 0 10 3"/><path d="M34 12c2-4 2-7 0-10"/><path d="M48 8l1 1"/><path d="M54 22l1 1"/><path d="M26 10l1 1"/><path d="M16 48l-4 4"/><path d="M22 50l-2 6"/></svg></div>
+            <div class="t-name">PREBODA</div>
+          </div>
+          <div class="t-desc">Nos vemos en Novelda para arrancar el finde como se merece. Os iremos actualizando ubicación y más detalles próximamente.</div>
+        </div>
+      </div>
+
+      <div class="timeline-divider">SÁBADO 17</div>
+
+      <div class="timeline-item">
+        <div class="t-time">11:30h</div>
+        <div class="t-line"><div class="t-dot"></div></div>
+        <div class="t-content">
+          <div class="t-header">
+            <div class="t-img-icon" aria-hidden="true"><svg class="skyline-icon" viewBox="0 0 64 64" aria-hidden="true"><rect x="14" y="18" width="36" height="24" rx="4"/><path d="M18 26h28M20 42v6M44 42v6M20 48h8M36 48h8"/><circle cx="22" cy="36" r="2"/><circle cx="42" cy="36" r="2"/></svg></div>
+            <div class="t-name">BUSES</div>
+          </div>
+          <div class="t-desc">Salida de autobuses desde Novelda y Aspe hasta Alfonso Mira. Puntualidad festivalera, por favor.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="t-time">12:00h</div>
+        <div class="t-line"><div class="t-dot"></div></div>
+        <div class="t-content">
+          <div class="t-header">
+            <div class="t-img-icon" aria-hidden="true"><svg class="skyline-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8v8"/><path d="M26 12h12"/><path d="M20 52V28"/><path d="M44 52V28"/><path d="M16 52h32"/><path d="M18 28l14-12l14 12"/><path d="M24 28h16"/><path d="M26 52V38c0-4 3-7 6-7s6 3 6 7v14"/><path d="M22 36h6"/><path d="M36 36h6"/></svg></div>
+            <div class="t-name">CEREMONIA</div>
+          </div>
+          <div class="t-desc">El primer drop del día. Nos damos el sí junto a nuestro Master of Ceremonies invitado.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="t-time">13:30h aprox</div>
+        <div class="t-line"><div class="t-dot"></div></div>
+        <div class="t-content">
+          <div class="t-header">
+            <div class="t-img-icon" aria-hidden="true"><svg class="skyline-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M16 14h32L32 34L16 14z"/><path d="M32 34v18M22 52h20"/><path d="M42 14l8-6M45 10l5 6"/></svg></div>
+            <div class="t-name">CÓCTEL</div>
+          </div>
+          <div class="t-desc">Calentamos motores. Comida, bebida y empieza el jaleito.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="t-time">A continuación</div>
+        <div class="t-line"><div class="t-dot"></div></div>
+        <div class="t-content">
+          <div class="t-header">
+            <div class="t-img-icon" aria-hidden="true"><svg class="skyline-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M14 42h36"/><path d="M18 42a14 14 0 0 1 28 0"/><path d="M32 24v-6"/><path d="M28 18h8"/><path d="M22 50h20"/></svg></div>
+            <div class="t-name">COMIDA</div>
+          </div>
+          <div class="t-desc">Main Stage. Banquete en el salón principal.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="t-time">Tarde / noche</div>
+        <div class="t-line"><div class="t-dot"></div></div>
+        <div class="t-content">
+          <div class="t-header">
+            <div class="t-img-icon" aria-hidden="true"><svg class="skyline-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M14 36a18 18 0 0 1 36 0"/><path d="M14 36v10h8V34h-8M50 36v10h-8V34h8"/><path d="M24 52h16M28 26h8"/></svg></div>
+            <div class="t-name">FIESTA</div>
+          </div>
+          <div class="t-desc">El mejor momento para los más disfrutones.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="t-time">00:00h</div>
+        <div class="t-line"><div class="t-dot"></div></div>
+        <div class="t-content">
+          <div class="t-header">
+            <div class="t-img-icon" aria-hidden="true"><svg class="skyline-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M42 44a18 18 0 0 1-18-28a16 16 0 1 0 22 22a18 18 0 0 1-4 6z"/><path d="M50 14l2 4l4 2l-4 2l-2 4l-2-4l-4-2l4-2l2-4z"/></svg></div>
+            <div class="t-name">CIERRE</div>
+          </div>
+          <div class="t-desc">Los buses de vuelta parten a medianoche.</div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
-<!-- MASTHEAD -->
-<header class="masthead">
-  <div class="masthead-top">
-    <span class="date-line">Lunes, 11 Mayo 2026</span>
-    <span class="edition">Edición #24</span>
-  </div>
-  <div class="logo">Mundial<span>Hub</span></div>
-  <div class="logo-sub">Copa del Mundo 2026 · USA · CAN · MEX</div>
-  <hr class="masthead-rule">
-</header>
+<!-- LOCATION -->
+<section id="location">
+  <p class="section-label" aria-hidden="true"></p>
+  <h2 class="section-title"><span class="glitch" data-text="UBICACIÓN">UBICACIÓN</span></h2>
 
-<!-- CONTENT -->
-<main class="content">
-
-  <!-- PAGE: FEED -->
-  <div class="page active" id="page-feed">
-    <div class="section-head">
-      <span class="section-title">Portada</span>
-      <div class="section-rule"></div>
-      <span class="section-title">Última hora</span>
-    </div>
-
-    <!-- Hero -->
-    <article class="news-hero">
-      <div class="news-hero-img-placeholder">🏆</div>
-      <div class="news-hero-body">
-        <span class="news-tag">Breaking</span>
-        <h1 class="news-hero-title">España destroza a Marruecos y avanza a semifinales del Mundial</h1>
-        <p class="news-hero-excerpt">La Roja firmó una actuación de gala en el MetLife Stadium. Yamal y Olmo brillaron con dos goles cada uno en una noche para la historia del fútbol español.</p>
-        <div class="news-meta">
-          <span>Hace 23 min</span>
-          <span>·</span>
-          <span>Cuartos de final</span>
-        </div>
+  <div class="loc-card loc-card-split">
+    <div class="loc-address">
+      <div class="loc-day">
+        <span>Viernes 16 · Preboda</span>
+        <p>Será en Novelda. Ubicación pendiente de definir.</p>
       </div>
-    </article>
-
-    <div class="col-divider"><span class="col-divider-text">Más noticias</span></div>
-
-    <!-- List -->
-    <div class="news-list">
-      <article class="news-item">
-        <div class="news-item-img-placeholder">🇧🇷</div>
-        <div class="news-item-body">
-          <span class="news-tag dark" style="font-size:8px;padding:1px 5px;margin-bottom:4px">Semifinales</span>
-          <p class="news-item-title">Brasil y Argentina confirman el clásico sudamericano en semis</p>
-          <div class="news-item-meta">Hace 1h · Semifinales</div>
-        </div>
-      </article>
-      <article class="news-item">
-        <div class="news-item-img-placeholder">⚽</div>
-        <div class="news-item-body">
-          <span class="news-tag gold" style="font-size:8px;padding:1px 5px;margin-bottom:4px">Goleador</span>
-          <p class="news-item-title">Mbappé alcanza los 12 goles y bate el récord histórico del Mundial</p>
-          <div class="news-item-meta">Hace 2h · Estadísticas</div>
-        </div>
-      </article>
-      <article class="news-item">
-        <div class="news-item-img-placeholder">🇩🇪</div>
-        <div class="news-item-body">
-          <p class="news-item-title">Alemania sufre pero elimina a Portugal en la tanda de penaltis</p>
-          <div class="news-item-meta">Hace 3h · Cuartos de final</div>
-        </div>
-      </article>
-      <article class="news-item">
-        <div class="news-item-img-placeholder">🏟️</div>
-        <div class="news-item-body">
-          <p class="news-item-title">La FIFA confirma que la final será en el Estadio Azteca el 19 de julio</p>
-          <div class="news-item-meta">Hace 4h · Organización</div>
-        </div>
-      </article>
-      <article class="news-item">
-        <div class="news-item-img-placeholder">🌟</div>
-        <div class="news-item-body">
-          <p class="news-item-title">Pedri elegido mejor jugador joven del torneo por la FIFA</p>
-          <div class="news-item-meta">Hace 5h · Premios</div>
-        </div>
-      </article>
-    </div>
-  </div>
-
-  <!-- PAGE: PARTIDOS -->
-  <div class="page" id="page-partidos">
-    <div class="section-head">
-      <span class="section-title">Calendario</span>
-      <div class="section-rule"></div>
-      <span class="section-title">Partidos</span>
-    </div>
-
-    <div class="match-day-label">🔴 Hoy — Martes 12 de Mayo</div>
-
-    <div class="match-card">
-      <div class="match-competition">Semifinal · Copa del Mundo 2026</div>
-      <div class="match-teams">
-        <div class="match-team">
-          <div class="team-flag">🇪🇸</div>
-          <div class="team-name">España</div>
-        </div>
-        <div class="match-center">
-          <div class="match-score">–</div>
-          <div class="match-time">21:00</div>
-          <span class="match-status-badge badge-soon">Hoy</span>
-        </div>
-        <div class="match-team">
-          <div class="team-flag">🇩🇪</div>
-          <div class="team-name">Alemania</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="match-card">
-      <div class="match-competition">Semifinal · Copa del Mundo 2026</div>
-      <div class="match-teams">
-        <div class="match-team">
-          <div class="team-flag">🇧🇷</div>
-          <div class="team-name">Brasil</div>
-        </div>
-        <div class="match-center">
-          <div class="match-score">–</div>
-          <div class="match-time">02:00</div>
-          <span class="match-status-badge badge-soon">Mañana</span>
-        </div>
-        <div class="match-team">
-          <div class="team-flag">🇦🇷</div>
-          <div class="team-name">Argentina</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="match-day-label">✅ Ayer — Lunes 11 de Mayo · Cuartos</div>
-
-    <div class="match-card">
-      <div class="match-competition">Cuartos de final · Copa del Mundo 2026</div>
-      <div class="match-teams">
-        <div class="match-team">
-          <div class="team-flag">🇪🇸</div>
-          <div class="team-name">España</div>
-        </div>
-        <div class="match-center">
-          <div class="match-score">4–0</div>
-          <div class="match-time">FIN</div>
-          <span class="match-status-badge badge-done">Final</span>
-        </div>
-        <div class="match-team">
-          <div class="team-flag">🇲🇦</div>
-          <div class="team-name">Marruecos</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="match-card">
-      <div class="match-competition">Cuartos de final · Copa del Mundo 2026</div>
-      <div class="match-teams">
-        <div class="match-team">
-          <div class="team-flag">🇩🇪</div>
-          <div class="team-name">Alemania</div>
-        </div>
-        <div class="match-center">
-          <div class="match-score">1–1</div>
-          <div class="match-time">Pen. 4-3</div>
-          <span class="match-status-badge badge-done">Final</span>
-        </div>
-        <div class="match-team">
-          <div class="team-flag">🇵🇹</div>
-          <div class="team-name">Portugal</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="match-card">
-      <div class="match-competition">Cuartos de final · Copa del Mundo 2026</div>
-      <div class="match-teams">
-        <div class="match-team">
-          <div class="team-flag">🇫🇷</div>
-          <div class="team-name">Francia</div>
-        </div>
-        <div class="match-center">
-          <div class="match-score">2–1</div>
-          <div class="match-time">FIN</div>
-          <span class="match-status-badge badge-done">Final</span>
-        </div>
-        <div class="match-team">
-          <div class="team-flag">🇺🇸</div>
-          <div class="team-name">USA</div>
-        </div>
+      <div class="loc-day">
+        <span>Sábado 17 · Ceremonia, recepción &amp; fiesta</span>
+        <p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Restaurante%20Alfonso%20Mira%20Aspe" target="_blank" rel="noopener">Restaurante Alfonso Mira</a><br>
+          Autovía Alicante–Madrid, salida 23 · 03680 Aspe, Alicante
+        </p>
       </div>
     </div>
   </div>
+</section>
 
-  <!-- PAGE: EN VIVO -->
-  <div class="page" id="page-envivo">
-    <div class="section-head">
-      <span class="section-title">En vivo</span>
-      <div class="section-rule"></div>
-      <span class="section-title">Marcadores</span>
-    </div>
 
-    <div class="match-day-label">🔴 Partido en curso — 67'</div>
+<!-- EXTRA INFO -->
+<section id="extra-info">
+  <p class="section-label" aria-hidden="true"></p>
+  <h2 class="section-title"><span class="glitch" data-text="INFO EXTRA">INFO EXTRA</span></h2>
 
-    <div class="match-card" style="background:rgba(192,57,43,0.04);border-left:3px solid var(--red)">
-      <div class="match-competition">Amistoso Internacional · Nueva York</div>
-      <div class="match-teams">
-        <div class="match-team">
-          <div class="team-flag">🇮🇹</div>
-          <div class="team-name">Italia</div>
+  <div class="info-section-group">
+    <h3 class="info-subtitle"><span class="glitch" data-text="RECOMENDACIONES">RECOMENDACIONES</span></h3>
+
+    <details class="info-accordion">
+      <summary><span><svg class="skyline-inline" viewBox="0 0 32 32" aria-hidden="true"><path d="M10 4v10"/><path d="M7 4v5"/><path d="M10 4v5"/><path d="M13 4v5"/><path d="M10 14v14"/><path d="M22 4c-3 3-4 7-4 11h4"/><path d="M22 4v24"/></svg> Restaurantes</span></summary>
+      <div class="restaurant-groups">
+        <div class="restaurant-group">
+          <h4>Novelda</h4>
+          <ul class="info-list link-list">
+            <li><a href="https://www.google.com/search?q=BonProfit+Aspe" target="_blank" rel="noopener">Bon Profit</a></li>
+            <li><a href="https://www.google.com/search?q=Kaos+Burger+Bar+Aspe" target="_blank" rel="noopener">Kaos Burger Bar</a></li>
+            <li><a href="https://www.google.com/search?q=La+Oveja+Negra+Aspe" target="_blank" rel="noopener">La Oveja Negra</a></li>
+          </ul>
         </div>
-        <div class="match-center">
-          <div class="match-score" style="color:var(--red)">1–1</div>
-          <div class="match-time live">67'</div>
-          <span class="match-status-badge badge-live">En vivo</span>
-        </div>
-        <div class="match-team">
-          <div class="team-flag">🇯🇵</div>
-          <div class="team-name">Japón</div>
+        <div class="restaurant-group">
+          <h4>Aspe</h4>
+          <ul class="info-list link-list">
+            <li><a href="https://www.tripadvisor.es/Restaurant_Review-g1064217-d7194530-Reviews-La_Casita_Gastrobar_Cafe-Aspe_Province_of_Alicante_Valencian_Community.html" target="_blank" rel="noopener">La Casita</a></li>
+            <li><a href="https://yarestaurante.es/" target="_blank" rel="noopener">Restaurante Ya</a></li>
+            <li><a href="https://elxorretrestaurante.es/" target="_blank" rel="noopener">El Xorret</a></li>
+          </ul>
         </div>
       </div>
-    </div>
+    </details>
 
-    <div class="match-day-label">✅ Resultados de hoy</div>
-
-    <div class="match-card">
-      <div class="match-competition">Cuartos de final · MetLife Stadium</div>
-      <div class="match-teams">
-        <div class="match-team">
-          <div class="team-flag">🇪🇸</div>
-          <div class="team-name">España</div>
-        </div>
-        <div class="match-center">
-          <div class="match-score">4–0</div>
-          <div class="match-time">FIN</div>
-          <span class="match-status-badge badge-done">Final</span>
-        </div>
-        <div class="match-team">
-          <div class="team-flag">🇲🇦</div>
-          <div class="team-name">Marruecos</div>
-        </div>
+    <details class="info-accordion">
+      <summary><span><svg class="skyline-inline" viewBox="0 0 32 32" aria-hidden="true"><path d="M8 14h13v4a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6v-4z"/><path d="M21 16h2a3 3 0 0 1 0 6h-2"/><path d="M7 27h18"/><path d="M11 6c-1 1.5-1 3 0 4"/><path d="M15 6c-1 1.5-1 3 0 4"/><path d="M19 6c-1 1.5-1 3 0 4"/></svg> Desayunos</span></summary>
+      <div class="restaurant-groups">
+      <div class="restaurant-group">
+        <h4>Novelda</h4>
+        <ul class="info-list link-list">
+          <li><a href="https://latorrecafe.com/" target="_blank" rel="noopener">La Torre Café</a></li>
+          <li><a href="https://share.google/xThN0uMYfUNQ5JKdc" target="_blank" rel="noopener">Pastelería Fernando</a></li>
+          <li><a href="https://share.google/v9ZApAwscBbZc76Gf" target="_blank" rel="noopener">Pastelería Raul Asencio</a></li>
+          <li><a href="https://share.google/XSnHbMecYA9zlmJeX" target="_blank" rel="noopener">Bar Parada</a></li>
+ <li><a href="https://www.google.com/search?q=Churreria+Mamatita+Aspe" target="_blank" rel="noopener">Churrería Mamatita</a></li>
+        </ul>
+      </div>
+      <div class="restaurant-group">
+        <h4>Aspe</h4>
+        <ul class="info-list link-list">
+          <li><a href="https://latorrecafe.com/" target="_blank" rel="noopener">La Torre Café</a></li>
+          <li><a href="https://www.tripadvisor.es/Restaurant_Review-g1064217-d7194530-Reviews-La_Casita_Gastrobar_Cafe-Aspe_Province_of_Alicante_Valencian_Community.html" target="_blank" rel="noopener">La Casita</a></li>
+          <li><a href="https://share.google/TBZe6WE8RLHMitTMq" target="_blank" rel="noopener">Pastelería Raul Asencio</a></li>
+        </ul>
       </div>
     </div>
+    </details>
 
-    <div class="match-card">
-      <div class="match-competition">Cuartos de final · Rose Bowl</div>
-      <div class="match-teams">
-        <div class="match-team">
-          <div class="team-flag">🇧🇷</div>
-          <div class="team-name">Brasil</div>
-        </div>
-        <div class="match-center">
-          <div class="match-score">3–1</div>
-          <div class="match-time">FIN</div>
-          <span class="match-status-badge badge-done">Final</span>
-        </div>
-        <div class="match-team">
-          <div class="team-flag">🇳🇱</div>
-          <div class="team-name">Países Bajos</div>
-        </div>
+    <details class="info-accordion">
+      <summary><span><svg class="skyline-inline" viewBox="0 0 32 32" aria-hidden="true"><circle cx="10" cy="24" r="3"/><circle cx="22" cy="24" r="3"/><path d="M12 22L24 6"/><path d="M20 22L8 6"/><path d="M8 6l3 7"/><path d="M24 6l-3 7"/></svg> Peluquerías</span></summary>
+      <ul class="info-list link-list">
+        <li><a href="https://www.google.com/maps/search/?api=1&query=Veronica%20Mira%20Salon%20Aspe" target="_blank" rel="noopener">Verónica Mira Salón</a></li>
+        <li><a href="https://www.google.com/maps/search/?api=1&query=Marisa%20Soler%20Aspe" target="_blank" rel="noopener">Marisa Soler</a></li>
+      </ul>
+    </details>
+
+    <details class="info-accordion">
+      <summary><span><svg class="skyline-inline" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 15L16 7l11 8"/><path d="M8 14v13h16V14"/><path d="M12 27v-7h8v7"/><path d="M13 15h6"/></svg> Alojamientos</span></summary>
+      <div class="accordion-copy">
+        <p>Recomendamos alojarse en <strong>Novelda o Aspe</strong>. Hay opciones en Booking y Airbnb en ambos pueblos.</p>
+        <p>Además, tenemos algunas habitaciones apalabradas en <strong>Hostalya</strong> con plazas limitadas. Si os interesa, contactad vía WhatsApp indicando que vais para la boda de Mario y Gema.</p>
+        <p>Cualquier ayuda para encontrar alojamiento, poneos en contacto con nosotros y os ayudaremos encantados.</p>
       </div>
-    </div>
+    </details>
   </div>
 
-  <!-- PAGE: GRUPOS -->
-  <div class="page" id="page-grupos">
-    <div class="section-head">
-      <span class="section-title">Clasificación</span>
-      <div class="section-rule"></div>
-      <span class="section-title">Grupos</span>
-    </div>
+</section>
 
-    <div class="group-block">
-      <div class="group-header">
-        <span>Grupo A</span>
-        <span style="font-size:10px;letter-spacing:1px;opacity:0.7">PJ · G · E · P · Pts</span>
-      </div>
-      <table class="group-table">
-        <thead><tr>
-          <th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>Pts</th>
-        </tr></thead>
-        <tbody>
-          <tr class="qualify"><td><span class="pos-num">1</span><span class="country-flag">🇺🇸</span><span class="country-name">USA</span></td><td>3</td><td>2</td><td>1</td><td>0</td><td class="pts-cell">7</td></tr>
-          <tr class="qualify"><td><span class="pos-num">2</span><span class="country-flag">🇲🇽</span><span class="country-name">México</span></td><td>3</td><td>2</td><td>0</td><td>1</td><td class="pts-cell">6</td></tr>
-          <tr><td><span class="pos-num">3</span><span class="country-flag">🇨🇦</span><span class="country-name">Canadá</span></td><td>3</td><td>1</td><td>0</td><td>2</td><td class="pts-cell">3</td></tr>
-          <tr><td><span class="pos-num">4</span><span class="country-flag">🇲🇦</span><span class="country-name">Marruecos</span></td><td>3</td><td>0</td><td>1</td><td>2</td><td class="pts-cell">1</td></tr>
-        </tbody>
-      </table>
-    </div>
+<!-- RSVP -->
+<div id="rsvp">
+  <div>
+    <p class="section-label" aria-hidden="true"></p>
+    <h2 class="section-title"><span class="glitch" data-text="CONFIRMACIÓN">CONFIRMACIÓN</span></h2>
 
-    <div class="group-block">
-      <div class="group-header">
-        <span>Grupo B</span>
-        <span style="font-size:10px;letter-spacing:1px;opacity:0.7">PJ · G · E · P · Pts</span>
-      </div>
-      <table class="group-table">
-        <thead><tr>
-          <th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>Pts</th>
-        </tr></thead>
-        <tbody>
-          <tr class="qualify"><td><span class="pos-num">1</span><span class="country-flag">🇪🇸</span><span class="country-name">España</span></td><td>3</td><td>3</td><td>0</td><td>0</td><td class="pts-cell">9</td></tr>
-          <tr class="qualify"><td><span class="pos-num">2</span><span class="country-flag">🇩🇪</span><span class="country-name">Alemania</span></td><td>3</td><td>2</td><td>0</td><td>1</td><td class="pts-cell">6</td></tr>
-          <tr><td><span class="pos-num">3</span><span class="country-flag">🇯🇵</span><span class="country-name">Japón</span></td><td>3</td><td>1</td><td>0</td><td>2</td><td class="pts-cell">3</td></tr>
-          <tr><td><span class="pos-num">4</span><span class="country-flag">🇸🇳</span><span class="country-name">Senegal</span></td><td>3</td><td>0</td><td>0</td><td>3</td><td class="pts-cell">0</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <div id="rsvp-form-wrap">
+      <div class="form-grid" id="the-form">
 
-    <div class="group-block">
-      <div class="group-header">
-        <span>Grupo C</span>
-        <span style="font-size:10px;letter-spacing:1px;opacity:0.7">PJ · G · E · P · Pts</span>
-      </div>
-      <table class="group-table">
-        <thead><tr>
-          <th>Equipo</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>Pts</th>
-        </tr></thead>
-        <tbody>
-          <tr class="qualify"><td><span class="pos-num">1</span><span class="country-flag">🇧🇷</span><span class="country-name">Brasil</span></td><td>3</td><td>3</td><td>0</td><td>0</td><td class="pts-cell">9</td></tr>
-          <tr class="qualify"><td><span class="pos-num">2</span><span class="country-flag">🇦🇷</span><span class="country-name">Argentina</span></td><td>3</td><td>2</td><td>1</td><td>0</td><td class="pts-cell">7</td></tr>
-          <tr><td><span class="pos-num">3</span><span class="country-flag">🇨🇴</span><span class="country-name">Colombia</span></td><td>3</td><td>0</td><td>1</td><td>2</td><td class="pts-cell">1</td></tr>
-          <tr><td><span class="pos-num">4</span><span class="country-flag">🇳🇬</span><span class="country-name">Nigeria</span></td><td>3</td><td>0</td><td>0</td><td>3</td><td class="pts-cell">0</td></tr>
-        </tbody>
-      </table>
-    </div>
+        <div class="form-group full">
+          <label>¿Asistirás?</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="asistencia" value="si" id="r-si" onchange="toggleAsistencia()" checked/>
+              <span>✓ SÍ ASISTIRÉ</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="asistencia" value="no" id="r-no" onchange="toggleAsistencia()"/>
+              <span>✗ NO PODRÉ ASISTIR</span>
+            </label>
+          </div>
+        </div>
 
-    <div style="padding:10px 16px;font-family:'Barlow Condensed',sans-serif;font-size:10px;color:var(--gray);display:flex;align-items:center;gap:6px">
-      <span style="display:inline-block;width:10px;height:10px;background:rgba(201,168,76,0.25);border:1px solid var(--gold)"></span>
-      Clasificado a siguiente fase
-    </div>
-  </div>
+        <div class="guest-block main-guest-block">
+          <div class="form-group">
+            <label>Nombre invitado/a</label>
+            <input type="text" id="nombre-invitado" placeholder="Nombre y apellidos" required/>
+          </div>
+          <div class="form-group" id="intolerancias-main-group">
+            <label>Intolerancias / alergias</label>
+            <input type="text" id="intolerancias" placeholder="Ninguna / indicar alergias"/>
+          </div>
+        </div>
 
-</main>
+        <!-- Mensaje no asistencia -->
+        <div id="no-asiste-msg">
+          <strong>Qué pena... 😢</strong>
+          Nos hubiera encantado tenerte con nosotros en este día tan especial.
+          Gracias por avisarnos.
+        </div>
 
-<!-- BOTTOM NAV -->
-<nav class="bottom-nav">
-  <button class="nav-item active" onclick="navigate('feed', this)">
-    <span class="nav-icon">📰</span>
-    <span class="nav-label">Noticias</span>
+        <!-- Sección asistentes: misma estructura para todos los invitados -->
+        <div id="acompanantes-section" class="show">
+
+          <div class="form-group full" style="margin-top:0">
+            <label>¿Vienes con acompañante?</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="company" value="si" id="a-si" onchange="toggleAcompanante()"/>
+                <span>✓ SÍ</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="company" value="no" id="a-no" onchange="toggleAcompanante()" checked/>
+                <span>✗ NO</span>
+              </label>
+            </div>
+          </div>
+
+          <div id="acompanante-fields" class="guest-block" style="display:none;">
+            <div class="form-group">
+              <label>Nombre acompañante</label>
+              <input type="text" id="nombre-acompanante" placeholder="Nombre y apellidos"/>
+            </div>
+            <div class="form-group">
+              <label>Alergias acompañante</label>
+              <input type="text" id="alergias-acompanante" placeholder="Ninguna / indicar alergias"/>
+            </div>
+          </div>
+          
+          <div class="form-group full" style="margin-top:0">
+            <label>¿Vienes a la preboda?</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="preboda" value="si" id="preboda-si"/>
+                <span>✓ SÍ</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="preboda" value="no" id="preboda-no" checked/>
+                <span>✗ NO</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="preboda" value="pendiente" id="preboda-pendiente"/>
+                <span>LO CONFIRMO MÁS TARDE</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group full">
+            <label> ¿Necesitarás autobús para ir a la finca?</label>
+            <select id="autobus">
+              <option value="">Seleccionar</option>
+              <option value="Salida desde Novelda">Salida desde Novelda</option>
+              <option value="Salida desde Aspe">Salida desde Aspe</option>
+              <option value="No necesito autobús">No necesito autobús</option>
+            </select>
+          </div>
+
+          <div class="form-group full" style="margin-top:0">
+            <label>¿Vienes con niños?</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="ninos" value="si" id="ninos-si" onchange="toggleNinos()"/>
+                <span>✓ SÍ</span>
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="ninos" value="no" id="ninos-no" onchange="toggleNinos()" checked/>
+                <span>✗ NO</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="guest-block children-counter-block" id="children-counter-block" style="display:none;">
+            <div class="form-group">
+              <label>Número de niños/as</label>
+              <div class="counter-control counter-control-small" aria-label="Contador de niños/as">
+                <button type="button" class="counter-btn" onclick="changeChildrenCount(-1)" aria-label="Restar niño/a">−</button>
+                <span class="counter-display" id="num-hijos-display">0</span>
+                <button type="button" class="counter-btn" onclick="changeChildrenCount(1)" aria-label="Sumar niño/a">+</button>
+              </div>
+              <input type="hidden" id="num-hijos" value="0"/>
+            </div>
+            <div class="form-group helper-copy">
+              <span>Añade niños/as con el contador.</span>
+            </div>
+          </div>
+
+          <div class="form-group full" id="children-data-group" style="display:none;">
+            <label>Datos de niños/as</label>
+            <div class="companions-list" id="children-list"></div>
+          </div>
+
+          <div class="form-group full">
+            <label>Canción para el festival</label>
+            <textarea id="cancion" placeholder="Dejanos una canción que te gustaría escuchar..."></textarea>
+          </div>
+
+          <div class="form-group full">
+            <label>Mensaje para los novios</label>
+            <textarea id="mensaje-novios" placeholder="Si te apetece puedes dejar un mensajito para los novios..."></textarea>
+          </div>
+
+          <button class="btn-submit" id="btn-confirmar" onclick="submitRSVP()">CONFIRMAR ASISTENCIA</button>
+
+<div class="recovery-area recovery-area-rsvp">
+  <button type="button" class="recovery-toggle" onclick="toggleRecoveryArea()">
+    Área de recuperación
   </button>
-  <button class="nav-item" onclick="navigate('partidos', this)">
-    <span class="nav-icon">📅</span>
-    <span class="nav-label">Partidos</span>
-  </button>
-  <button class="nav-item" onclick="navigate('envivo', this)">
-    <span class="nav-icon">⚽</span>
-    <span class="nav-label">En vivo</span>
-  </button>
-  <button class="nav-item" onclick="navigate('grupos', this)">
-    <span class="nav-icon">🏅</span>
-    <span class="nav-label">Grupos</span>
-  </button>
-</nav>
 
-<script>
-  function navigate(page, btn) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById('page-' + page).classList.add('active');
-    btn.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-</script>
+  <div id="recovery-panel" class="recovery-panel recovery-festi-panel" hidden>
+    
+
+    <p class="recovery-line">
+      <svg class="recovery-icon heart-icon" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M32 52S12 40 12 24c0-6 4-10 10-10c4 0 8 2 10 6c2-4 6-6 10-6c6 0 10 4 10 10c0 16-20 28-20 28z"/>
+      </svg> 
+      <span>Gracias por venir a liarla con nosotros</span>
+            <svg class="recovery-icon heart-icon" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M32 52S12 40 12 24c0-6 4-10 10-10c4 0 8 2 10 6c2-4 6-6 10-6c6 0 10 4 10 10c0 16-20 28-20 28z"/>
+      </svg> 
+    </p>
+
+    <p class="recovery-line">
+            <svg class="recovery-icon smile-icon" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="18"/>
+        <path d="M25 27h.01"/>
+        <path d="M39 27h.01"/>
+        <path d="M24 38c2.5 4 5.5 6 8 6s5.5-2 8-6"/>
+      </svg>
+      <span>Para quien quiera sumar un poquito al recovery post-festival</span>
+      <svg class="recovery-icon smile-icon" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="18"/>
+        <path d="M25 27h.01"/>
+        <path d="M39 27h.01"/>
+        <path d="M24 38c2.5 4 5.5 6 8 6s5.5-2 8-6"/>
+      </svg>
+      <!--<svg class="recovery-icon heart-icon" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M32 52S12 40 12 24c0-6 4-10 10-10c4 0 8 2 10 6c2-4 6-6 10-6c6 0 10 4 10 10c0 16-20 28-20 28z"/>
+      </svg> 
+      -->
+    </p>
+
+    <div class="iban-copy">
+      <code id="iban-text">ES81 0081 1026 9100 0160 9868</code>
+      <button type="button" onclick="copyIban()">Copiar</button>
+    </div>
+  </div>
+</div>
+        </div>
+
+        <!-- Botón enviar no asiste -->
+        <div id="no-asiste-btn-wrap" style="display:none; grid-column:1/-1;">
+          <div class="form-group full no-attend-message">
+            <label>Mensaje para los novios</label>
+            <textarea id="mensaje-novios-no" placeholder="Déjanos un mensaje si te apetece..."></textarea>
+          </div>
+          <button class="btn-submit" style="width:100%" id="btn-no-asiste" onclick="submitNoAsiste()">ENVIAR RESPUESTA</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="form-loading" class="form-loading" style="display: none;">
+      <div class="loader"></div>
+        <p>Gestionando aforo...</p>
+    </div>
+
+    <div class="form-success" id="form-success">
+      <span class="check">🎧</span>
+      <h3>¡CONFIRMADO!</h3>
+      <p>TU PLAZA EN LA PISTA ESTÁ RESERVADA.<br>NOS VEMOS EL 17 DE OCTUBRE.</p>
+    </div>
+
+    <div class="form-success" id="form-no-asiste" style="display:none;">
+      <span class="check">💌</span>
+      <h3>RECIBIDO</h3>
+      <p>GRACIAS POR AVISARNOS.<br>¡TE ECHAREMOS DE MENOS!</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>GEMA <span>&</span> MARIO — 17.10.2026 — NOVELDA · ALICANTE</p>
+  <p style="margin-top:8px;">CON AMOR Y MUCHO BASSLINE</p>
+</footer>
+
+<script src="script.js"></script>
+<script src="protect.js"></script>
+
+<div id="toast"></div>
 </body>
 </html>
