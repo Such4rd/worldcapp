@@ -3754,33 +3754,72 @@ body .nav-shell {
   background: rgba(249, 242, 235, 0.64) !important;
 }
 
-/* BPM: empiezan pequeñas desde abajo y crecen hacia arriba */
+/* BPM: más pequeños y pegados abajo al abrir la página */
+body #hero {
+  position: relative !important;
+  min-height: 100svh !important;
+  padding-bottom: clamp(42px, 7svh, 70px) !important;
+}
+
 body .bpm-bar {
-  height: clamp(34px, 6svh, 62px) !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+
+  height: clamp(18px, 3svh, 32px) !important;
   display: flex !important;
   align-items: flex-end !important;
   gap: 3px !important;
-  padding: 0 8px 6px !important;
+  padding: 0 8px 4px !important;
   overflow: hidden !important;
 }
 
 body .bpm-bar span {
   flex: 1 !important;
-  height: 6px !important;
-  min-height: 6px !important;
+  height: 4px !important;
+  min-height: 4px !important;
   transform-origin: bottom !important;
-  animation: beatTall 0.55s ease-in-out infinite alternate !important;
+  animation: beatTallSmall 0.55s ease-in-out infinite alternate !important;
 }
 
-/* La barra empieza baja y sube desde abajo */
-@keyframes beatTall {
+/* Crecen desde abajo, pero aproximadamente la mitad que antes */
+@keyframes beatTallSmall {
   from {
     transform: scaleY(1);
     opacity: 0.35;
   }
 
   to {
-    transform: scaleY(8);
+    transform: scaleY(4);
     opacity: 1;
   }
+}
+
+/* NAV fijo en toda la web */
+body .nav-shell {
+  position: fixed !important;
+  top: max(8px, env(safe-area-inset-top)) !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: translateX(-50%) !important;
+
+  width: min(calc(100% - 22px), 980px) !important;
+  max-width: calc(100% - 22px) !important;
+  margin: 0 auto !important;
+  z-index: 9999 !important;
+}
+
+/* Para que al pulsar en el menú no tape los títulos */
+html {
+  scroll-padding-top: 105px !important;
+}
+
+#hero,
+#plan,
+#location,
+#extra-info,
+#rsvp {
+  scroll-margin-top: 105px !important;
 }
