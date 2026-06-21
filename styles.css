@@ -3823,3 +3823,49 @@ html {
 #rsvp {
   scroll-margin-top: 105px !important;
 }
+/* Icono sutil Spotify en campo canción */
+body .song-label-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  margin-bottom: 8px !important;
+}
+
+body .song-label-row label {
+  margin-bottom: 0 !important;
+}
+
+body .spotify-icon-link {
+  width: 34px !important;
+  height: 34px !important;
+  display: inline-grid !important;
+  place-items: center !important;
+  flex: 0 0 auto !important;
+
+  border-radius: 999px !important;
+  border: 1px solid rgba(var(--accent-rgb), 0.22) !important;
+  background: rgba(249, 242, 235, 0.38) !important;
+  color: var(--text-muted) !important;
+
+  text-decoration: none !important;
+  opacity: 0.86 !important;
+  transition: transform 0.15s ease, opacity 0.15s ease, border-color 0.15s ease, color 0.15s ease !important;
+}
+
+body .spotify-icon-link svg {
+  width: 19px !important;
+  height: 19px !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 1.7 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+
+body .spotify-icon-link:hover {
+  color: var(--accent) !important;
+  border-color: rgba(var(--accent-rgb), 0.45) !important;
+  opacity: 1 !important;
+  transform: translateY(-1px) !important;
+}
